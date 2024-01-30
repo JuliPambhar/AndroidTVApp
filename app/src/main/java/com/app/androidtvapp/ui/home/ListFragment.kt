@@ -19,8 +19,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListFragment : RowsSupportFragment() {
 
     private val viewModel: ListFragmentViewModel by activityViewModels()
-    private val rootAdapter by lazy { ArrayObjectAdapter(ListRowPresenter(FocusHighlight.ZOOM_FACTOR_MEDIUM)) }
 
+    private val listRowPresenter = object : ListRowPresenter(FocusHighlight.ZOOM_FACTOR_MEDIUM) {
+        override fun isUsingDefaultListSelectEffect(): Boolean {
+            return false
+        }
+    }.apply {
+        shadowEnabled = false
+    }
+
+    private val rootAdapter by lazy { ArrayObjectAdapter(listRowPresenter) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +42,10 @@ class ListFragment : RowsSupportFragment() {
                 viewModel.onItemSelected(item)
             }
         }
+    }
+
+    override fun setExpand(expand: Boolean) {
+        super.setExpand(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

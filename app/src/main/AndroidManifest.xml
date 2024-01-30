@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.software.leanback"
-        android:required="false" />
-    <!--disable touch because we don't need touch in tv-->
+        android:required="false" /> <!-- disable touch because we don't need touch in tv -->
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -19,10 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidTVApp">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>

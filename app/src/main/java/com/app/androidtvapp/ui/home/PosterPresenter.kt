@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
 import coil.load
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
 import com.app.androidtvapp.data.remote.MovieItem
 import com.app.androidtvapp.databinding.ItemLayoutBinding
 
@@ -15,6 +13,9 @@ class PosterPresenter : Presenter() {
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
         val binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val params = binding.root.layoutParams
+        params.width = getWidthPercent(parent.context, 13)
+        params.height = getHeightPercent(parent.context, 32)
 
 //        val imageCardView = ImageCardView(parent.context).apply {
 //            isFocusable = true

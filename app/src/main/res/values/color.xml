@@ -4,4 +4,6 @@
     <color name="fastlane_background">#0096a6</color>
     
     <color name="cod_gray">#171717</color>
+    <color name="color_grey">#F8F8F8</color>
+    <color name="color_white">#FFFFFF</color>
 </resources>
