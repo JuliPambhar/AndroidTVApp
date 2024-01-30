@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "retrofit": "^0.2.11"
+  }
+}

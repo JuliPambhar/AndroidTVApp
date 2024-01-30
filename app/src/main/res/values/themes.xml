@@ -1,0 +1,6 @@
+<resources>
+
+    <style name="Theme.AndroidTVApp" parent="@style/Theme.Leanback">
+        <item name="android:colorBackground">@color/cod_gray</item>
+    </style>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_home">
+
+ <!--   <fragment
+        android:id="@+id/fragment_splash"
+        android:name="com.app.androidtvapp.ui.splash.SplashFragment">
+
+        <action
+            android:id="@+id/action_splash_to_home"
+            app:destination="@+id/fragment_home" />
+
+    </fragment>-->
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.app.androidtvapp.ui.home.ListFragment" />
+</navigation>
