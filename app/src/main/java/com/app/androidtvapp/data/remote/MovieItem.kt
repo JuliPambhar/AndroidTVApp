@@ -1,5 +1,6 @@
 package com.app.androidtvapp.data.remote
 
+/*
 data class MovieItem(
     val actors: List<String>,
     val desc: String,
@@ -11,4 +12,4 @@ data class MovieItem(
     val rating: Double,
     val thumb_url: String,
     val year: Int?
-)
+)*/

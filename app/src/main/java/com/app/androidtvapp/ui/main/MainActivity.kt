@@ -2,11 +2,12 @@ package com.app.androidtvapp.ui.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import com.app.androidtvapp.R
 import com.app.androidtvapp.databinding.ActivityMainBinding
-import com.app.androidtvapp.ui.HomeFragment
+import com.app.androidtvapp.ui.HomeFragmentDirections
+import com.app.androidtvapp.ui.detail.DetailFragmentArgs
 import com.app.androidtvapp.ui.home.ListFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,13 +21,13 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        changeFragment(HomeFragment())
-    }
+        viewModel.clickedMovie.observe(this) {movie->
 
-    fun changeFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.commit()
+            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            val action = HomeFragmentDirections.actionHomeToDetail(movie.id.toString())
+            navController.navigate(action)
+
+        }
 
     }
 }

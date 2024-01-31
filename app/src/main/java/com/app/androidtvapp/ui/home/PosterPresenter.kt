@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
 import coil.load
-import com.app.androidtvapp.data.remote.MovieItem
+import com.app.androidtvapp.data.remote.Result
 import com.app.androidtvapp.databinding.ItemLayoutBinding
 
 class PosterPresenter : Presenter() {
@@ -43,10 +43,10 @@ class PosterPresenter : Presenter() {
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
         val binding = ItemLayoutBinding.bind(viewHolder.view)
 
-        val movie = item as MovieItem
+        val movie = item as Result
         binding.posterImage.setImageResource(0)
-        binding.posterImage.load(movie.image_url)
-        binding.title.text = movie.name
+        binding.posterImage.load("https://www.themoviedb.org/t/p/w500" +movie.poster_path)
+        binding.title.text = movie.title
 
 //        with(viewHolder.view as ImageCardView) {
 //            val posterWidth = resources.getDimension(R.dimen.poster_width).toInt()

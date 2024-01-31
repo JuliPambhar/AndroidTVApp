@@ -17,6 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidTVApp">
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">

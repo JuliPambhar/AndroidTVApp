@@ -10,8 +10,8 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
 import androidx.lifecycle.asLiveData
-import com.app.androidtvapp.data.local.Category
-import com.app.androidtvapp.data.remote.MovieItem
+import com.app.androidtvapp.data.remote.Movies
+import com.app.androidtvapp.data.remote.Result
 import com.app.androidtvapp.util.Resourse
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,15 +38,18 @@ class ListFragment : RowsSupportFragment() {
         this.adapter = rootAdapter
 
         setOnItemViewSelectedListener { _, item, _, _ ->
-            if (item is MovieItem) {
+            if (item is Result) {
                 viewModel.onItemSelected(item)
+            }
+        }
+
+        setOnItemViewClickedListener { itemViewHolder, item, rowViewHolder, row ->
+            if (item is Result) {
+                viewModel.onItemClicked(item)
             }
         }
     }
 
-    override fun setExpand(expand: Boolean) {
-        super.setExpand(true)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,8 +63,7 @@ class ListFragment : RowsSupportFragment() {
                 }
 
                 is Resourse.Success -> {
-                    println("respose data ${resource.data.size}")
-                    displayData(resource.data)
+                    displayData(resource.data, "Now Playing")
                     //                    startEntranceTransition()
                 }
 
@@ -72,18 +74,27 @@ class ListFragment : RowsSupportFragment() {
         }
     }
 
-    private fun displayData(categories: List<Category>) {
-        categories.forEach { category ->
-            val rowAdapter = ArrayObjectAdapter(PosterPresenter())
-            val movieItems = mutableListOf<MovieItem>()
-            category.movies.forEach { movieItem ->
-                movieItems.add(movieItem)
-            }
-            rowAdapter.addAll(0, movieItems)
-            val headerItem = HeaderItem(category.id, category.genre)
-            val row = ListRow(headerItem, rowAdapter)
-            rootAdapter.add(row)
+    private fun displayData(movies: Movies, title: String) {
+        val rowAdapter = ArrayObjectAdapter(PosterPresenter())
+        movies.results.forEach { movie ->
+            rowAdapter.add(movie)
+
+
         }
+        val headerItem = HeaderItem(title)
+        val row = ListRow(headerItem, rowAdapter)
+        rootAdapter.add(row)
+        /* categories.forEach { category ->
+             val rowAdapter = ArrayObjectAdapter(PosterPresenter())
+             val movieItems = mutableListOf<MovieItem>()
+             category.forEach { movieItem ->
+                 movieItems.add(movieItem)
+             }
+             rowAdapter.addAll(0, movieItems)
+             val headerItem = HeaderItem(category.id, category.genre)
+             val row = ListRow(headerItem, rowAdapter)
+             rootAdapter.add(row)
+         }*/
 
         /* for (category in categories) {
              val headerItem = HeaderItem(category.id, category.genre)

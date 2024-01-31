@@ -4,17 +4,34 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_home">
 
- <!--   <fragment
-        android:id="@+id/fragment_splash"
-        android:name="com.app.androidtvapp.ui.splash.SplashFragment">
+    <!--   <fragment
+           android:id="@+id/fragment_splash"
+           android:name="com.app.androidtvapp.ui.splash.SplashFragment">
 
-        <action
-            android:id="@+id/action_splash_to_home"
-            app:destination="@+id/fragment_home" />
+           <action
+               android:id="@+id/action_splash_to_home"
+               app:destination="@+id/fragment_home" />
 
-    </fragment>-->
+       </fragment>-->
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.app.androidtvapp.ui.home.ListFragment" />
+        android:name="com.app.androidtvapp.ui.HomeFragment">
+
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@+id/fragment_detail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_detail"
+        android:name="com.app.androidtvapp.ui.detail.DetailFragment">
+
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+
+    </fragment>
+
 </navigation>
