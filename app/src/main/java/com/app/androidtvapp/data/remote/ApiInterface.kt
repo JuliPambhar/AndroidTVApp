@@ -12,6 +12,9 @@ interface ApiInterface {
     @GET("movie/{movie_id}")
     suspend fun getMovieDetail(@Path("movie_id")id:String,@Query("api_key") apiKey: String): MovieDetail
 
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCastList(@Path("movie_id")id:String,@Query("api_key") apiKey: String): CastResponse
+
 //    @GET("top250_min.json")
 //    suspend fun getMovies(): List<MovieItem>
 }

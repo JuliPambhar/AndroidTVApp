@@ -28,130 +28,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".06" />
 
-    <androidx.leanback.widget.BrowseFrameLayout
-        android:id="@+id/blfNavBar"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:background="#000000"
-        android:nextFocusLeft="@id/container"
-        app:layout_constraintEnd_toStartOf="@id/list_fragment"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/btn_search"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_search"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Search"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_home"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_home"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Home"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_movies"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_movie"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Movies"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_tv"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_tv"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="TV"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_sports"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_sports"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Sports"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_settings"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_settings"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Settings"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_language"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_language"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Language"
-                android:textColor="@color/text_selector_white_grey" />
-
-            <TextView
-                android:id="@+id/btn_genre"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/selector_menu"
-                android:drawableLeft="@drawable/ic_genre"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Genre"
-                android:textColor="@color/text_selector_white_grey" />
-
-        </LinearLayout>
-
-
-    </androidx.leanback.widget.BrowseFrameLayout>
 
     <ImageView
         android:id="@+id/thumb_image"
@@ -220,7 +96,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/blfNavBar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline_center" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,20 +18,9 @@
         android:id="@+id/fragment_home"
         android:name="com.app.androidtvapp.ui.HomeFragment">
 
-        <action
-            android:id="@+id/action_home_to_detail"
-            app:destination="@+id/fragment_detail" />
-
     </fragment>
-
     <fragment
-        android:id="@+id/fragment_detail"
-        android:name="com.app.androidtvapp.ui.detail.DetailFragment">
-
-        <argument
-            android:name="movieId"
-            app:argType="string" />
-
-    </fragment>
+        android:id="@+id/fragment_search"
+        android:name="com.app.androidtvapp.ui.search.SearchFragment" />
 
 </navigation>

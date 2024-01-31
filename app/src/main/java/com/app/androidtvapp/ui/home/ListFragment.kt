@@ -10,8 +10,10 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
 import androidx.lifecycle.asLiveData
+import com.app.androidtvapp.data.remote.Cast
 import com.app.androidtvapp.data.remote.Movies
 import com.app.androidtvapp.data.remote.Result
+import com.app.androidtvapp.ui.detail.CastItemPresenter
 import com.app.androidtvapp.util.Resourse
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,31 +52,17 @@ class ListFragment : RowsSupportFragment() {
         }
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.movieResponse.asLiveData().observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resourse.Idle -> {
-                }
-
-                is Resourse.Loading -> {
-
-                }
-
-                is Resourse.Success -> {
-                    displayData(resource.data, "Now Playing")
-                    //                    startEntranceTransition()
-                }
-
-                is Resourse.Error -> {
-                    print("data: $resource")
-                }
-            }
+    fun bindCastData(list: List<Cast>) {
+        val arrayObjectAdapter = ArrayObjectAdapter(CastItemPresenter())
+        list.forEach { cast ->
+            arrayObjectAdapter.add(cast)
         }
+        val headerItem = HeaderItem("Cast & Crew")
+        val listRow = ListRow(headerItem, arrayObjectAdapter)
+        rootAdapter.add(listRow)
     }
 
-    private fun displayData(movies: Movies, title: String) {
+    fun displayData(movies: Movies, title: String) {
         val rowAdapter = ArrayObjectAdapter(PosterPresenter())
         movies.results.forEach { movie ->
             rowAdapter.add(movie)
@@ -105,5 +93,10 @@ class ListFragment : RowsSupportFragment() {
              rootAdapter.add(ListRow(headerItem, rawAdapter))
              println("adapter size ${adapter.size()}")
          }*/
+    }
+    fun requestFocus(): View {
+        val view = view
+        view?.requestFocus()
+        return view!!
     }
 }

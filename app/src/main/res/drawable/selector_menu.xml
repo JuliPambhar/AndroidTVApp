@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetTop="-2.5dp"
-    android:insetLeft="-2.5dp"
-    android:insetBottom="-2.5dp">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    <item android:drawable="@drawable/radio_btn_selected" android:state_checked="false" />-->
+    <!--    <item android:drawable="@drawable/selected_menu_bg" android:state_checked="true" />-->
 
-    <shape android:shape="rectangle">
+    <item android:drawable="@drawable/selected_menu" android:state_activated="true" />
 
-        <!--        <corners android:radius="4dp" />-->
-        <gradient
-            android:endColor="#1A2ca1f7"
-            android:centerColor="#1A2ca1f7"
-            android:startColor="#00000000"
-            android:centerY=".1"
-            android:type="linear" />
-        <stroke
-            android:width="2.5dp"
-            android:color="#2b68e8" />
-    </shape>
-</inset>
+    <item android:drawable="@drawable/selected_menu" android:state_focused="true" />
+
+    <!-- default -->
+    <item android:drawable="@color/transparent" />
+</selector>

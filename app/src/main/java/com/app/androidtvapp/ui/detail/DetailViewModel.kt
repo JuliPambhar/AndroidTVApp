@@ -1,7 +1,10 @@
 package com.app.androidtvapp.ui.detail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.androidtvapp.data.remote.CastResponse
 import com.app.androidtvapp.data.remote.MovieDetail
 import com.app.androidtvapp.data.remote.Movies
 import com.app.androidtvapp.data.repo.MovieRepo
@@ -18,6 +21,10 @@ class DetailViewModel @Inject constructor(private val movieRepo: MovieRepo) : Vi
         MutableStateFlow<Resourse<MovieDetail>>(Resourse.Idle())
     val movieResponse = _movieResponse.asStateFlow()
 
+    private val _castResponse =
+        MutableStateFlow<Resourse<CastResponse>>(Resourse.Idle())
+    val castResponse= _castResponse.asStateFlow()
+
     fun getMovies(id:String) {
         viewModelScope.launch {
             with(_movieResponse) {
@@ -30,4 +37,17 @@ class DetailViewModel @Inject constructor(private val movieRepo: MovieRepo) : Vi
             }
         }
     }
+    fun getMoviesCast(id:String) {
+        viewModelScope.launch {
+            with(_castResponse) {
+                tryEmit(Resourse.Loading())
+                tryEmit(
+                    Resourse.Success(
+                        movieRepo.getMoviesCastList(id)
+                    )
+                )
+            }
+        }
+    }
+
 }

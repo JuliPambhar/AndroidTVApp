@@ -3,54 +3,50 @@ package com.app.androidtvapp.ui.detail
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentActivity
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
 import androidx.lifecycle.asLiveData
-import androidx.navigation.fragment.navArgs
 import coil.load
 import com.app.androidtvapp.R
+import com.app.androidtvapp.data.remote.Cast
 import com.app.androidtvapp.data.remote.MovieDetail
 import com.app.androidtvapp.databinding.FragmentDetailBinding
+import com.app.androidtvapp.ui.home.ListFragment
 import com.app.androidtvapp.util.Resourse
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailActivity : FragmentActivity() {
 
     private val viewModel: DetailViewModel by viewModels()
+    private val rootAdapter by lazy { ArrayObjectAdapter(CastItemPresenter()) }
 
-    private val args: DetailFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentDetailBinding
+    val castFragment = ListFragment()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.cast_fragment, castFragment)
+        transaction.commit()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val movieId = args.movieId
+        val movieId = intent.getStringExtra("id").orEmpty()
         viewModel.getMovies(movieId)
-        viewModel.movieResponse.asLiveData().observe(viewLifecycleOwner) { resource ->
+        viewModel.getMoviesCast(movieId)
+        viewModel.movieResponse.asLiveData().observe(this) { resource ->
             when (resource) {
-                is Resourse.Idle -> {
-                }
-
-                is Resourse.Loading -> {
-
-                }
-
+                is Resourse.Idle -> {}
+                is Resourse.Loading -> {}
                 is Resourse.Success -> {
                     setData(resource.data)
                     //                    startEntranceTransition()
@@ -61,9 +57,23 @@ class DetailFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.castResponse.asLiveData().observe(this) { response ->
+            when (response) {
+                is Resourse.Error -> {}
+                is Resourse.Idle -> {}
+                is Resourse.Loading -> {}
+                is Resourse.Success -> {
+                    castFragment.bindCastData(response.data.cast)
+                }
+            }
+        }
+
     }
 
-    fun setData(data: MovieDetail) {
+
+
+    private fun setData(data: MovieDetail) {
         binding.title.text = data.title
         binding.subtitle.text = getSubtitle(data)
         binding.description.text = data.overview
@@ -74,17 +84,17 @@ class DetailFragment : Fragment() {
             binding.showMore.setOnClickListener {
 
                 descriptionDialog(
-                    requireContext(),
+                    this,
                     data.title,
                     getSubtitle(data),
-                    data.overview.toString()
+                    data.overview
                 )
 
             }
         }
     }
 
-    fun getSubtitle(response: MovieDetail?): String {
+    private fun getSubtitle(response: MovieDetail?): String {
         val rating = if (response!!.adult) {
             "18+"
         } else {
@@ -104,7 +114,7 @@ class DetailFragment : Fragment() {
 
     }
 
-    fun TextView.isEllipsized(ellipsize: (isEllipsized: Boolean) -> Unit) {
+    private fun TextView.isEllipsized(ellipsize: (isEllipsized: Boolean) -> Unit) {
         val lineCount = layout?.lineCount ?: 0
         if (lineCount > 0) {
             val ellipseCount = layout?.getEllipsisCount(lineCount - 1) ?: 0
@@ -112,7 +122,12 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun descriptionDialog(context: Context, title: String?, subtext: String, description: String) {
+    private fun descriptionDialog(
+        context: Context,
+        title: String?,
+        subtext: String,
+        description: String
+    ) {
         val dialog = Dialog(context, R.style.Theme_AndroidTVApp)
         dialog.window?.setBackgroundDrawableResource(R.color.transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -1,18 +1,19 @@
 package com.app.androidtvapp.ui.home
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
 import coil.load
 import com.app.androidtvapp.data.remote.Result
-import com.app.androidtvapp.databinding.ItemLayoutBinding
+import com.app.androidtvapp.databinding.PosterItemLayoutBinding
+import com.app.androidtvapp.util.Common.Companion.getHeightPercent
+import com.app.androidtvapp.util.Common.Companion.getWidthPercent
 
 class PosterPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
-        val binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PosterItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val params = binding.root.layoutParams
         params.width = getWidthPercent(parent.context, 13)
         params.height = getHeightPercent(parent.context, 32)
@@ -30,18 +31,10 @@ class PosterPresenter : Presenter() {
         return ViewHolder(binding.root)
     }
 
-    private fun getWidthPercent(context: Context, percent: Int): Int {
-        val width = context.resources.displayMetrics.widthPixels ?: 0
-        return (width * percent) / 100
-    }
 
-    private fun getHeightPercent(context: Context, percent: Int): Int {
-        val width = context.resources.displayMetrics.heightPixels ?: 0
-        return (width * percent) / 100
-    }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
-        val binding = ItemLayoutBinding.bind(viewHolder.view)
+        val binding = PosterItemLayoutBinding.bind(viewHolder.view)
 
         val movie = item as Result
         binding.posterImage.setImageResource(0)
