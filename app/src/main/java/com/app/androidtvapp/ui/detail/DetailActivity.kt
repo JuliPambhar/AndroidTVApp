@@ -8,13 +8,9 @@ import android.view.Window
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HeaderItem
-import androidx.leanback.widget.ListRow
 import androidx.lifecycle.asLiveData
 import coil.load
 import com.app.androidtvapp.R
-import com.app.androidtvapp.data.remote.Cast
 import com.app.androidtvapp.data.remote.MovieDetail
 import com.app.androidtvapp.databinding.FragmentDetailBinding
 import com.app.androidtvapp.ui.home.ListFragment
@@ -25,11 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailActivity : FragmentActivity() {
 
     private val viewModel: DetailViewModel by viewModels()
-    private val rootAdapter by lazy { ArrayObjectAdapter(CastItemPresenter()) }
-
 
     private lateinit var binding: FragmentDetailBinding
-    val castFragment = ListFragment()
+    private val castFragment = ListFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,16 +62,14 @@ class DetailActivity : FragmentActivity() {
                 }
             }
         }
-
     }
-
-
 
     private fun setData(data: MovieDetail) {
         binding.title.text = data.title
         binding.subtitle.text = getSubtitle(data)
         binding.description.text = data.overview
         binding.imgBanner.load("https://www.themoviedb.org/t/p/w780" + data.backdrop_path)
+
         binding.description.isEllipsized { isEllipsized ->
             binding.showMore.visibility = if (isEllipsized) View.VISIBLE else View.GONE
 
