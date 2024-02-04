@@ -4,25 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.androidtvapp.data.local.Category
-import com.app.androidtvapp.data.remote.MovieItem
-import com.app.androidtvapp.data.repo.MovieRepo
-import com.app.androidtvapp.util.Resourse
+import com.app.domain.ResponseState
+import com.app.domain.entities.MoviesInfo
+import com.app.domain.usecase.GetMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListFragmentViewModel @Inject constructor(private val movieRepo: MovieRepo) : ViewModel() {
+class ListFragmentViewModel @Inject constructor(private val getMovieUseCase: GetMovieUseCase) :
+    ViewModel() {
 
-    private val _movieResponse =
-        MutableStateFlow<Resourse<List<Category>>>(Resourse.Idle())
-    val movieResponse = _movieResponse.asStateFlow()
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
 
-    private val _selectedMovie = MutableLiveData<MovieItem>()
-    val selectedMovie: LiveData<MovieItem> = _selectedMovie
+    private val _movieResponse = MutableLiveData<List<MoviesInfo>>()
+    val movieResponse: LiveData<List<MoviesInfo>> = _movieResponse
+
+    private val _selectedMovie = MutableLiveData<MoviesInfo>()
+    val selectedMovie: LiveData<MoviesInfo> = _selectedMovie
+
+    private val _clickedMovie = MutableLiveData<MoviesInfo>()
+    val clickedMovie: LiveData<MoviesInfo> = _clickedMovie
 
     init {
         loadMovies()
@@ -30,44 +33,30 @@ class ListFragmentViewModel @Inject constructor(private val movieRepo: MovieRepo
 
     private fun loadMovies() {
         viewModelScope.launch {
-            with(_movieResponse) {
-                tryEmit(Resourse.Loading())
-                tryEmit(
-                    Resourse.Success(
-                        movieRepo.getMovies().categorized()
-                    )
-                )
+            getMovieUseCase.getMovies().collect { response ->
+                when (response) {
+                    is ResponseState.Error -> {
+                        println(response.throwable.message)
+                    }
+
+                    is ResponseState.Loading -> {
+                        _loading.value = true
+                    }
+
+                    is ResponseState.Success -> {
+                        _loading.value = false
+                        _movieResponse.value = response.data!!
+                    }
+                }
             }
         }
     }
 
-    /** TO convert movie list to categorized feed*/
-    private fun List<MovieItem>.categorized(): List<Category> {
-        val genreSet = mutableSetOf<String>()
-      /*  this.map { movieItem ->
-            movieItem.genre.map {
-                genreSet.add(it)
-            }.distinct()
-        }*/
-        for (movie in this) {
-            for (genre in movie.genre) {
-                genreSet.add(genre)
-            }
-        }
-
-        val feedItems = mutableListOf<Category>()
-
-        for ((index, genre) in genreSet.withIndex()) {
-            val genreMovies = this.filter {
-                it.genre.contains(genre)
-            }
-
-            feedItems.add(Category(index.toLong(), genre, genreMovies))
-        }
-        return feedItems
-    }
-
-    fun onItemSelected(item: MovieItem) {
+    fun onItemSelected(item: MoviesInfo) {
         _selectedMovie.value = item
+    }
+
+    fun onItemClicked(item: MoviesInfo) {
+        _clickedMovie.value = item
     }
 }

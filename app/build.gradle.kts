@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.app.androidtvapp"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +45,9 @@ android {
 
 dependencies {
 
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.leanback:leanback:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -62,9 +65,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
-    //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")

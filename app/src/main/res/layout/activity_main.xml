@@ -4,97 +4,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".5" />
+    <androidx.leanback.widget.BrowseFrameLayout
+        android:id="@+id/blfNavBar"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:nextFocusLeft="@id/nav_host_fragment"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".06" />
+            <TextView
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="Search"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <ImageView
-        android:id="@+id/thumb_image"
-        android:layout_width="0dp"
-        android:scaleType="centerCrop"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".6" />
+            <TextView
+                android:id="@+id/btn_home"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:focusable="true"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_home"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:text="Home"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <View
-        android:id="@+id/gradient_horizontal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/banner_gradient"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".7" />
+            <TextView
+                android:id="@+id/btn_movies"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:focusable="true"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_movie"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:text="Movies"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textColor="#ffffff"
-        android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+            <TextView
+                android:id="@+id/btn_tv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:focusable="true"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_tv"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:text="TV"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <TextView
-        android:id="@+id/subTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sub Title"
-        android:textColor="#ffffff"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+            <TextView
+                android:id="@+id/btn_sports"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:focusable="true"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_sports"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:text="Sports"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:lineSpacingMultiplier="1.2"
-        android:maxLines="4"
-        android:text="Sub Title"
-        android:textColor="#ffffff"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/subTitle"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".4" />
+            <TextView
+                android:id="@+id/btn_settings"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_settings"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="Settings"
+                android:textColor="@color/text_selector_white_grey" />
 
-    <androidx.fragment.app.FragmentContainerView
+            <TextView
+                android:id="@+id/btn_language"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_language"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="Language"
+                android:textColor="@color/text_selector_white_grey" />
+
+            <TextView
+                android:id="@+id/btn_genre"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/selector_menu"
+                android:drawableLeft="@drawable/ic_genre"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="Genre"
+                android:textColor="@color/text_selector_white_grey" />
+
+        </LinearLayout>
+
+
+    </androidx.leanback.widget.BrowseFrameLayout>
+
+    <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:nextFocusRight="@id/blfNavBar"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_center"
+        app:layout_constraintStart_toEndOf="@id/blfNavBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

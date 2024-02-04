@@ -1,65 +1,35 @@
 package com.app.androidtvapp.ui.home
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
 import coil.load
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import com.app.androidtvapp.data.remote.MovieItem
-import com.app.androidtvapp.databinding.ItemLayoutBinding
+import com.app.androidtvapp.databinding.PosterItemLayoutBinding
+import com.app.androidtvapp.util.Common.Companion.getHeightPercent
+import com.app.androidtvapp.util.Common.Companion.getWidthPercent
+import com.app.domain.entities.MoviesInfo
 
 class PosterPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
-        val binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            PosterItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val params = binding.root.layoutParams
+        params.width = getWidthPercent(parent.context, 13)
+        params.height = getHeightPercent(parent.context, 32)
 
-//        val imageCardView = ImageCardView(parent.context).apply {
-//            isFocusable = true
-//            isFocusableInTouchMode = true
-//            cardType = BaseCardView.CARD_TYPE_MAIN_ONLY
-//            with(mainImageView) {
-//                val posterWidth = parent.resources.getDimension(R.dimen.poster_width).toInt()
-//                val posterHeight = parent.resources.getDimension(R.dimen.Poster_height).toInt()
-//                layoutParams = BaseCardView.LayoutParams(posterWidth, posterHeight)
-//            }
-//        }
         return ViewHolder(binding.root)
     }
 
-    private fun getWidthPercent(context: Context, percent: Int): Int {
-        val width = context.resources.displayMetrics.widthPixels ?: 0
-        return (width * percent) / 100
-    }
-
-    private fun getHeightPercent(context: Context, percent: Int): Int {
-        val width = context.resources.displayMetrics.heightPixels ?: 0
-        return (width * percent) / 100
-    }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
-        val binding = ItemLayoutBinding.bind(viewHolder.view)
+        val binding = PosterItemLayoutBinding.bind(viewHolder.view)
 
-        val movie = item as MovieItem
+        val movie = item as MoviesInfo
         binding.posterImage.setImageResource(0)
-        binding.posterImage.load(movie.image_url)
-        binding.title.text = movie.name
-
-//        with(viewHolder.view as ImageCardView) {
-//            val posterWidth = resources.getDimension(R.dimen.poster_width).toInt()
-//            val posterHeight = resources.getDimension(R.dimen.Poster_height).toInt()
-//
-//            mainImageView.load(
-//                data = movie.image_url,
-//                builder = {
-//                    scale(Scale.FIT)
-//                    size(posterWidth, posterHeight)
-//                    //placeholder(R.mipmap.ic_launcher)
-//                })
-//            titleText = movie.name
-//        }
+        binding.posterImage.load("https://www.themoviedb.org/t/p/w500" + movie.posterImg)
+        binding.title.text = movie.title
     }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder?) {

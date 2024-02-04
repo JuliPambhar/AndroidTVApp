@@ -4,17 +4,23 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_home">
 
- <!--   <fragment
-        android:id="@+id/fragment_splash"
-        android:name="com.app.androidtvapp.ui.splash.SplashFragment">
+    <!--   <fragment
+           android:id="@+id/fragment_splash"
+           android:name="com.app.androidtvapp.ui.splash.SplashFragment">
 
-        <action
-            android:id="@+id/action_splash_to_home"
-            app:destination="@+id/fragment_home" />
+           <action
+               android:id="@+id/action_splash_to_home"
+               app:destination="@+id/fragment_home" />
 
-    </fragment>-->
+       </fragment>-->
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.app.androidtvapp.ui.home.ListFragment" />
+        android:name="com.app.androidtvapp.ui.home.HomeFragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.app.androidtvapp.ui.search.SearchFragment" />
+
 </navigation>

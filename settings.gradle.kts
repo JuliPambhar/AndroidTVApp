@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidTVApp"
 include(":app")
- 
+include(":data")
+include(":domain")
