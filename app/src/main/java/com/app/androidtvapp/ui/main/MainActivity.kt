@@ -28,13 +28,10 @@ class MainActivity : FragmentActivity(), View.OnKeyListener {
 
     private lateinit var lastSelectedMenu: View
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         binding.btnSearch.setOnKeyListener(this)
         binding.btnHome.setOnKeyListener(this)
@@ -48,13 +45,8 @@ class MainActivity : FragmentActivity(), View.OnKeyListener {
         viewModel.clickedMovie.observe(this) { movie ->
 
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("id", movie.id.toString())
+            intent.putExtra("id", movie.id)
             startActivity(intent)
-
-            /* val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-             val action = HomeFragmentDirections.actionHomeToDetail(movie.id.toString())
-             navController.navigate(action)*/
-
         }
 
         lastSelectedMenu = binding.btnHome
@@ -152,7 +144,6 @@ class MainActivity : FragmentActivity(), View.OnKeyListener {
         binding.blfNavBar.requestLayout()
         binding.blfNavBar.layoutParams.width = getWidthInPercent(this, 5)
 
-        // fragmentContainer.requestFocus()
         sideMenu = false
     }
 
@@ -169,7 +160,6 @@ class MainActivity : FragmentActivity(), View.OnKeyListener {
 
         return super.onKeyDown(keyCode, event)
     }
-
 
     override fun onBackPressed() {
         if (sideMenu) {

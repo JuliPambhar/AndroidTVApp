@@ -8,13 +8,11 @@ import android.view.Window
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.asLiveData
 import coil.load
 import com.app.androidtvapp.R
-import com.app.androidtvapp.data.remote.MovieDetail
 import com.app.androidtvapp.databinding.FragmentDetailBinding
 import com.app.androidtvapp.ui.home.ListFragment
-import com.app.androidtvapp.util.Resourse
+import com.app.domain.entities.MovieDetailInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,38 +35,20 @@ class DetailActivity : FragmentActivity() {
         val movieId = intent.getStringExtra("id").orEmpty()
         viewModel.getMovies(movieId)
         viewModel.getMoviesCast(movieId)
-        viewModel.movieResponse.asLiveData().observe(this) { resource ->
-            when (resource) {
-                is Resourse.Idle -> {}
-                is Resourse.Loading -> {}
-                is Resourse.Success -> {
-                    setData(resource.data)
-                    //                    startEntranceTransition()
-                }
-
-                is Resourse.Error -> {
-                    print("data: $resource")
-                }
-            }
+        viewModel.movieResponse.observe(this) { resource ->
+            setData(resource)
         }
 
-        viewModel.castResponse.asLiveData().observe(this) { response ->
-            when (response) {
-                is Resourse.Error -> {}
-                is Resourse.Idle -> {}
-                is Resourse.Loading -> {}
-                is Resourse.Success -> {
-                    castFragment.bindCastData(response.data.cast)
-                }
-            }
+        viewModel.castResponse.observe(this) { response ->
+            castFragment.bindCastData(response)
         }
     }
 
-    private fun setData(data: MovieDetail) {
+    private fun setData(data: MovieDetailInfo) {
         binding.title.text = data.title
         binding.subtitle.text = getSubtitle(data)
-        binding.description.text = data.overview
-        binding.imgBanner.load("https://www.themoviedb.org/t/p/w780" + data.backdrop_path)
+        binding.description.text = data.description
+        binding.imgBanner.load("https://www.themoviedb.org/t/p/w780" + data.imgBanner)
 
         binding.description.isEllipsized { isEllipsized ->
             binding.showMore.visibility = if (isEllipsized) View.VISIBLE else View.GONE
@@ -79,28 +59,28 @@ class DetailActivity : FragmentActivity() {
                     this,
                     data.title,
                     getSubtitle(data),
-                    data.overview
+                    data.description
                 )
 
             }
         }
     }
 
-    private fun getSubtitle(response: MovieDetail?): String {
-        val rating = if (response!!.adult) {
+    private fun getSubtitle(response: MovieDetailInfo): String {
+        val rating = if (response.rating) {
             "18+"
         } else {
             "13+"
         }
 
-        val genres = response.genres.joinToString(
+        val genres = response.genreName.joinToString(
             prefix = " ",
             postfix = " • ",
             separator = " • "
-        ) { it.name }
+        )
 
-        val hours: Int = response.runtime / 60
-        val min: Int = response.runtime % 60
+        val hours: Int = response.runtime.toInt() / 60
+        val min: Int = response.runtime.toInt() % 60
 
         return rating + genres + hours + "h " + min + "m"
 

@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.app.androidtvapp.ui.HomeFragment">
+        android:name="com.app.androidtvapp.ui.home.HomeFragment">
 
     </fragment>
     <fragment

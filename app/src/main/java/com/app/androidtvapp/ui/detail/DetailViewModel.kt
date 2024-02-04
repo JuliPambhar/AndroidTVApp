@@ -4,48 +4,58 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.androidtvapp.data.remote.CastResponse
-import com.app.androidtvapp.data.remote.MovieDetail
-import com.app.androidtvapp.data.remote.Movies
-import com.app.androidtvapp.data.repo.MovieRepo
-import com.app.androidtvapp.util.Resourse
+import com.app.domain.ResponseState
+import com.app.domain.entities.CastInfo
+import com.app.domain.entities.MovieDetailInfo
+import com.app.domain.usecase.GetCastInfoUseCase
+import com.app.domain.usecase.GetMovieDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val movieRepo: MovieRepo) : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val getCastInfoUseCase: GetCastInfoUseCase
+) : ViewModel() {
 
-    private val _movieResponse =
-        MutableStateFlow<Resourse<MovieDetail>>(Resourse.Idle())
-    val movieResponse = _movieResponse.asStateFlow()
+    private val _movieResponse = MutableLiveData<MovieDetailInfo>()
+    val movieResponse: LiveData<MovieDetailInfo> = _movieResponse
 
-    private val _castResponse =
-        MutableStateFlow<Resourse<CastResponse>>(Resourse.Idle())
-    val castResponse= _castResponse.asStateFlow()
+    private val _castResponse = MutableLiveData<List<CastInfo>>()
+    val castResponse: LiveData<List<CastInfo>> = _castResponse
 
-    fun getMovies(id:String) {
+    fun getMovies(id: String) {
         viewModelScope.launch {
-            with(_movieResponse) {
-                tryEmit(Resourse.Loading())
-                tryEmit(
-                    Resourse.Success(
-                        movieRepo.getMoviesDetail(id)
-                    )
-                )
+            getMovieDetailUseCase.getMovieDetail(id).collect { response ->
+                when (response) {
+                    is ResponseState.Error -> {
+
+                    }
+
+                    is ResponseState.Loading -> {}
+                    is ResponseState.Success -> {
+                        _movieResponse.value = response.data!!
+                    }
+                }
+
             }
         }
     }
-    fun getMoviesCast(id:String) {
+
+    fun getMoviesCast(id: String) {
         viewModelScope.launch {
-            with(_castResponse) {
-                tryEmit(Resourse.Loading())
-                tryEmit(
-                    Resourse.Success(
-                        movieRepo.getMoviesCastList(id)
-                    )
-                )
+            getCastInfoUseCase.getCastInfo(id).collect { response ->
+                when (response) {
+                    is ResponseState.Error -> {}
+                    is ResponseState.Loading -> {
+
+                    }
+
+                    is ResponseState.Success -> {
+                        _castResponse.value = response.data!!
+                    }
+                }
             }
         }
     }

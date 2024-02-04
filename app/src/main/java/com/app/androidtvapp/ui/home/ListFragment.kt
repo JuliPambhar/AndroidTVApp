@@ -1,7 +1,6 @@
 package com.app.androidtvapp.ui.home
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
@@ -9,12 +8,9 @@ import androidx.leanback.widget.FocusHighlight
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
-import androidx.lifecycle.asLiveData
-import com.app.androidtvapp.data.remote.Cast
-import com.app.androidtvapp.data.remote.Movies
-import com.app.androidtvapp.data.remote.Result
 import com.app.androidtvapp.ui.detail.CastItemPresenter
-import com.app.androidtvapp.util.Resourse
+import com.app.domain.entities.CastInfo
+import com.app.domain.entities.MoviesInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,19 +36,19 @@ class ListFragment : RowsSupportFragment() {
         this.adapter = rootAdapter
 
         setOnItemViewSelectedListener { _, item, _, _ ->
-            if (item is Result) {
+            if (item is MoviesInfo) {
                 viewModel.onItemSelected(item)
             }
         }
 
-        setOnItemViewClickedListener { itemViewHolder, item, rowViewHolder, row ->
-            if (item is Result) {
+        setOnItemViewClickedListener { _, item, _, _ ->
+            if (item is MoviesInfo) {
                 viewModel.onItemClicked(item)
             }
         }
     }
 
-    fun bindCastData(list: List<Cast>) {
+    fun bindCastData(list: List<CastInfo>) {
         val arrayObjectAdapter = ArrayObjectAdapter(CastItemPresenter())
         list.forEach { cast ->
             arrayObjectAdapter.add(cast)
@@ -62,9 +58,9 @@ class ListFragment : RowsSupportFragment() {
         rootAdapter.add(listRow)
     }
 
-    fun displayData(movies: Movies, title: String) {
+    fun displayData(movies: List<MoviesInfo>, title: String) {
         val rowAdapter = ArrayObjectAdapter(PosterPresenter())
-        movies.results.forEach { movie ->
+        movies.forEach { movie ->
             rowAdapter.add(movie)
 
 
@@ -72,31 +68,5 @@ class ListFragment : RowsSupportFragment() {
         val headerItem = HeaderItem(title)
         val row = ListRow(headerItem, rowAdapter)
         rootAdapter.add(row)
-        /* categories.forEach { category ->
-             val rowAdapter = ArrayObjectAdapter(PosterPresenter())
-             val movieItems = mutableListOf<MovieItem>()
-             category.forEach { movieItem ->
-                 movieItems.add(movieItem)
-             }
-             rowAdapter.addAll(0, movieItems)
-             val headerItem = HeaderItem(category.id, category.genre)
-             val row = ListRow(headerItem, rowAdapter)
-             rootAdapter.add(row)
-         }*/
-
-        /* for (category in categories) {
-             val headerItem = HeaderItem(category.id, category.genre)
-
-             for (movie in category.movies) {
-                 rawAdapter.add(movie)
-             }
-             rootAdapter.add(ListRow(headerItem, rawAdapter))
-             println("adapter size ${adapter.size()}")
-         }*/
-    }
-    fun requestFocus(): View {
-        val view = view
-        view?.requestFocus()
-        return view!!
     }
 }
