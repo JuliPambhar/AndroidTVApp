@@ -1,9 +1,9 @@
 # Project Description
 
-Andorid Movie shows applicaiton using TMDB Api.
+Android Movie shows applications using TMDB API.
 
-A sample application for understanding Android TV specific features, especially Leanback support library.
-Many of the implementation is based on Android TV sample application provided by AOSP, and androidtv-Leanback provided by Google.
+A sample application for understanding Android TV-specific features, especially the Leanback support library.
+Many of the implementations are based on Android TV sample applications provided by AOSP, and androidtv-Leanback provided by Google.
 
 # Technologies & Architecture
 
