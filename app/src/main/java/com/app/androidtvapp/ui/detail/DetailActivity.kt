@@ -2,6 +2,7 @@ package com.app.androidtvapp.ui.detail
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -12,6 +13,7 @@ import coil.load
 import com.app.androidtvapp.R
 import com.app.androidtvapp.databinding.FragmentDetailBinding
 import com.app.androidtvapp.ui.home.ListFragment
+import com.app.androidtvapp.ui.video.VideoActivity
 import com.app.domain.entities.MovieDetailInfo
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +43,12 @@ class DetailActivity : FragmentActivity() {
 
         viewModel.castResponse.observe(this) { response ->
             castFragment.bindCastData(response)
+        }
+
+        binding.play.setOnClickListener {
+            val intent = Intent(this, VideoActivity::class.java)
+            intent.putExtra("id", movieId)
+            startActivity(intent)
         }
     }
 
