@@ -15,11 +15,16 @@
         android:banner="@mipmap/ic_launcher"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidTVApp">
 
         <activity
             android:name=".ui.detail.DetailActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.video.VideoActivity"
             android:exported="true" />
 
         <activity
