@@ -22,7 +22,6 @@ RestFulApi
 
 # Todo
 1. Seach Screen
-2. Video player screen
 
 # Video 
 
